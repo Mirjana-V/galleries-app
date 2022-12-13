@@ -1,15 +1,13 @@
 import React from 'react';
-import Navbar from './Navbar';
-import useAuth from "../hooks/useAuth";
+import MainNavbar from './MainNavbar';
 
 export default function DefaultLayout({children}) {
-  const { user } = useAuth();
 
   return (
     <div>
-        <div><Navbar /></div>
+        <div><MainNavbar /></div>
         <div>{children}</div>
-        <footer> Hello there{user && user.first_name}</footer>
+        {/* <footer> Hello there{user && user.first_name}</footer> */}
     </div>
   );
 }

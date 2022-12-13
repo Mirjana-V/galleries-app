@@ -1,23 +1,31 @@
-import React, { useState } from "react";
-import RegisterComponent from "../components/RegisterComponent";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import {register} from "../store/auth/slice";
+import RegisterComponent from '../components/RegisterComponent'
 import { useHistory } from "react-router-dom";
-import { authService } from "../services/AuthService";
 
-export default function RegisterPage() {
-    const [newUser, setNewUser] = useState({ first_name: '', last_name: '', email: '', password: '', password_confirmation: '' });
+export default function Register(){
+    const dispatch = useDispatch();
     const history = useHistory();
-
-    const handleOnRegister = async (e) => {
+    const [newUser, setNewUser] = useState({
+        first_name: "",
+        last_name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+        terms: false
+    });
+  
+    function handleOnRegister(e){
         e.preventDefault();
-        if (newUser.password !== newUser.password_confirmation) {
-            alert('password not matching')
+  
+        if (!e.target.terms.checked){
+          alert("You have to accept Terms and Conditions to register.");
+          return;
         }
-        const response = await authService.register(newUser);
-        if (response) {
-            alert('Registration successful.');
-            history.push("/login");
-        }
-    };
+        dispatch(register(newUser));
+        history.push('./galleries');
+    }
 
     return (
         <RegisterComponent
